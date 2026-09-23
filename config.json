@@ -1,0 +1,8 @@
+{
+  "ServerName": "CFS Network",
+  "ServerAddress": "87.229.6.49:30120",
+  "DiscordUrl": "https://discord.gg/MV379UnmeR",
+  "ServerInfoUrl": "http://87.229.6.49:30120/info.json",
+  "LauncherAuthUrl": "http://87.229.6.49:30120/cfs-launcher-auth-7f4b9c2e8a61",
+  "GitHubLatestReleaseUrl": "https://api.github.com/repos/energie1024/bebep/releases/latest"
+}

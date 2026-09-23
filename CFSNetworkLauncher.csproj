@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>CFSNetworkLauncher</AssemblyName>
+    <RootNamespace>CFSNetworkLauncher</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\9462bc4b-a3f4-4fc9-8d15-a8416816ca90.ico</ApplicationIcon>
+    <Platforms>AnyCPU</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\9462bc4b-a3f4-4fc9-8d15-a8416816ca90.ico" />
+  </ItemGroup>
+
+</Project>
