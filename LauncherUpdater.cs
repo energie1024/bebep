@@ -24,7 +24,7 @@ public sealed class UpdateCheckResult
 
 public static class LauncherUpdater
 {
-    public const string CurrentVersion = "1.5.0";
+    public const string CurrentVersion = "1.5.1";
 
     private const string AssetName = "CFSNetworkLauncher.exe";
 
