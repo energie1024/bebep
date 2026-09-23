@@ -97,7 +97,7 @@
                                        FontWeight="Bold"/>
 
                             <TextBlock Grid.Row="1"
-                                       Text="FiveM Roleplay"
+                                       Text="FiveM Network"
                                        Foreground="White"
                                        FontSize="36"
                                        FontWeight="Bold"
