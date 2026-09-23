@@ -1,0 +1,55 @@
+name: CFS Network Launcher Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Publish launcher
+        run: >
+          dotnet publish CFSNetworkLauncher.csproj
+          -c Release
+          -r win-x64
+          --self-contained true
+          -p:PublishSingleFile=true
+          -p:IncludeNativeLibrariesForSelfExtract=true
+          -p:EnableCompressionInSingleFile=true
+          -p:DebugType=None
+          -p:DebugSymbols=false
+          -o publish
+
+      - name: Copy config
+        shell: pwsh
+        run: Copy-Item config.json publish/config.json -Force
+
+      - name: Create or update GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "${{ github.ref_name }}" > $null 2>&1
+
+          if ($LASTEXITCODE -ne 0) {
+            gh release create "${{ github.ref_name }}" `
+              --title "CFS Network Launcher ${{ github.ref_name }}" `
+              --generate-notes
+          }
+
+          gh release upload "${{ github.ref_name }}" `
+            "publish/CFSNetworkLauncher.exe" `
+            --clobber
