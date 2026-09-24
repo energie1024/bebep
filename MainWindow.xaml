@@ -1,245 +1,801 @@
 <Window x:Class="CFSNetworkLauncher.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="CFS Network Launcher"
-        Icon="/CFSNetworkLauncher;component/Assets/9462bc4b-a3f4-4fc9-8d15-a8416816ca90.ico"
-        Width="900"
-        Height="560"
+        Title="CFS Network"
+        Width="1100"
+        Height="680"
+        MinWidth="1000"
+        MinHeight="620"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
-        ResizeMode="NoResize"
-        Background="#0B0F17"
+        ResizeMode="CanResize"
+        AllowsTransparency="True"
+        Background="Transparent"
         MouseLeftButtonDown="Window_MouseLeftButtonDown">
 
-    <Border CornerRadius="18"
-            BorderThickness="1"
-            BorderBrush="#273044"
-            Background="#0B0F17">
-        <Grid>
+    <Window.Resources>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="56"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="76"/>
-            </Grid.RowDefinitions>
+        <!-- ====================================================== -->
+        <!-- COLORS -->
+        <!-- ====================================================== -->
 
-            <!-- TOP BAR -->
-            <Grid Grid.Row="0" Background="#101725">
-                <TextBlock Text="CFS NETWORK"
-                           Foreground="White"
-                           FontSize="19"
-                           FontWeight="Bold"
-                           VerticalAlignment="Center"
-                           Margin="22,0,0,0"/>
+        <SolidColorBrush x:Key="Bg" Color="#020812"/>
+        <SolidColorBrush x:Key="Panel" Color="#071321"/>
+        <SolidColorBrush x:Key="Border" Color="#19395C"/>
+        <SolidColorBrush x:Key="Blue" Color="#1677FF"/>
+        <SolidColorBrush x:Key="Blue2" Color="#3B9BFF"/>
+        <SolidColorBrush x:Key="White" Color="#F4F8FF"/>
+        <SolidColorBrush x:Key="Gray" Color="#8292A8"/>
+        <SolidColorBrush x:Key="Green" Color="#20DC76"/>
 
-                <StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            Margin="0,0,12,0">
-                    <Button x:Name="MinimizeButton"
-                            Content="—"
-                            Click="Minimize_Click"
-                            Width="42"
-                            Height="34"
-                            Margin="0,0,6,0"
-                            Background="#182133"
-                            Foreground="White"
-                            BorderThickness="0"
-                            FontSize="18"
-                            Cursor="Hand"/>
+        <!-- ====================================================== -->
+        <!-- LOGO GLOW -->
+        <!-- ====================================================== -->
 
-                    <Button x:Name="CloseButton"
-                            Content="✕"
-                            Click="Close_Click"
-                            Width="42"
-                            Height="34"
-                            Background="#7D2530"
-                            Foreground="White"
-                            BorderThickness="0"
-                            FontSize="15"
-                            Cursor="Hand"/>
-                </StackPanel>
-            </Grid>
+        <DropShadowEffect x:Key="LogoGlow"
+                          Color="#0078FF"
+                          BlurRadius="32"
+                          ShadowDepth="0"
+                          Opacity="0.75"/>
 
-            <!-- CONTENT -->
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2.1*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
+        <DropShadowEffect x:Key="ButtonGlow"
+                          Color="#0078FF"
+                          BlurRadius="25"
+                          ShadowDepth="0"
+                          Opacity="0.75"/>
 
-                <!-- LEFT -->
-                <Grid Grid.Column="0" Margin="28,24,14,20">
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+        <!-- ====================================================== -->
+        <!-- CONNECT BUTTON -->
+        <!-- ====================================================== -->
 
-                    <Border Grid.Row="0"
-                            CornerRadius="14"
-                            Background="#111827"
-                            BorderBrush="#273044"
-                            BorderThickness="1"
-                            Padding="22">
+        <Style x:Key="ConnectStyle"
+               TargetType="Button">
 
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="#176BEE"/>
+            <Setter Property="BorderThickness" Value="0"/>
 
-                            <TextBlock Text="CFS NETWORK"
-                                       Foreground="#62A8FF"
-                                       FontSize="14"
-                                       FontWeight="Bold"/>
+            <Setter Property="Template">
 
-                            <TextBlock Grid.Row="1"
-                                       Text="FiveM Network"
-                                       Foreground="White"
-                                       FontSize="36"
-                                       FontWeight="Bold"
-                                       Margin="0,8,0,0"/>
+                <Setter.Value>
 
-                            <TextBlock Grid.Row="2"
-                                       Text="Csatlakozz a szerverhez a hivatalos launcherből."
-                                       Foreground="#A8B2C5"
-                                       FontSize="15"
-                                       Margin="0,8,0,0"/>
+                    <ControlTemplate TargetType="Button">
 
-                            <StackPanel Grid.Row="3"
-                                        VerticalAlignment="Bottom">
+                        <Border x:Name="MainBorder"
+                                CornerRadius="12"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="#4297FF"
+                                BorderThickness="1">
 
-                                <TextBlock Text="SZERVER"
-                                           Foreground="#68758B"
-                                           FontSize="11"
-                                           FontWeight="Bold"/>
+                            <Border.Effect>
 
-                                <TextBlock x:Name="AddressText"
-                                           Text="87.229.6.49:30120"
-                                           Foreground="White"
-                                           FontSize="17"
-                                           Margin="0,5,0,16"/>
+                                <DropShadowEffect
+                                    Color="#087BFF"
+                                    BlurRadius="25"
+                                    ShadowDepth="0"
+                                    Opacity="0.75"/>
 
-                                <Button x:Name="ConnectButton"
-                                        Content="CSATLAKOZÁS"
-                                        Click="Connect_Click"
-                                        Height="54"
-                                        Background="#246BCE"
-                                        Foreground="White"
-                                        BorderThickness="0"
-                                        FontSize="16"
-                                        FontWeight="Bold"
-                                        Cursor="Hand"/>
+                            </Border.Effect>
+
+                            <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+
+                                <Path Width="19"
+                                      Height="22"
+                                      Fill="White"
+                                      Data="M 0,0 L 19,11 L 0,22 Z"
+                                      Margin="0,0,16,0"/>
+
+                                <TextBlock Text="CSATLAKOZÁS"
+                                           FontSize="20"
+                                           FontWeight="SemiBold"
+                                           Foreground="White"/>
 
                             </StackPanel>
-                        </Grid>
-                    </Border>
 
-                    <StackPanel Grid.Row="1"
-                                Orientation="Horizontal"
-                                Margin="2,14,0,0">
-                        <Ellipse x:Name="StatusDot"
-                                 Width="12"
-                                 Height="12"
-                                 Fill="#E6414B"
-                                 VerticalAlignment="Center"/>
+                        </Border>
 
-                        <TextBlock x:Name="StatusText"
-                                   Text="ELLENŐRZÉS..."
-                                   Foreground="#A8B2C5"
-                                   FontSize="13"
-                                   Margin="8,0,0,0"
-                                   VerticalAlignment="Center"/>
+                        <ControlTemplate.Triggers>
 
-                        <TextBlock x:Name="PlayersText"
-                                   Text=""
-                                   Foreground="#68758B"
-                                   FontSize="13"
-                                   Margin="14,0,0,0"
-                                   VerticalAlignment="Center"/>
-                    </StackPanel>
-                </Grid>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
 
-                <!-- RIGHT -->
-                <Grid Grid.Column="1" Margin="14,24,28,20">
-                    <Border CornerRadius="14"
-                            Background="#111827"
-                            BorderBrush="#273044"
-                            BorderThickness="1"
-                            Padding="20">
+                                <Setter TargetName="MainBorder"
+                                        Property="Background"
+                                        Value="#2381FF"/>
 
-                        <StackPanel>
-                            <TextBlock Text="CFS NETWORK"
-                                       Foreground="White"
-                                       FontSize="21"
-                                       FontWeight="Bold"/>
+                            </Trigger>
 
-                            <TextBlock Text="Hivatalos launcher"
-                                       Foreground="#68758B"
-                                       FontSize="13"
-                                       Margin="0,3,0,20"/>
+                            <Trigger Property="IsPressed"
+                                     Value="True">
 
-                            <Border Height="120"
-                                    CornerRadius="10"
-                                    Background="#182133">
-                                <TextBlock Text="CFS"
-                                           Foreground="#62A8FF"
-                                           FontSize="52"
-                                           FontWeight="Bold"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"/>
+                                <Setter TargetName="MainBorder"
+                                        Property="Background"
+                                        Value="#0D5BC9"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled"
+                                     Value="False">
+
+                                <Setter TargetName="MainBorder"
+                                        Property="Opacity"
+                                        Value="0.5"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+
+        <!-- ====================================================== -->
+        <!-- NAVIGATION -->
+        <!-- ====================================================== -->
+
+        <Style x:Key="NavStyle"
+               TargetType="Button">
+
+            <Setter Property="Width"
+                    Value="86"/>
+
+            <Setter Property="Height"
+                    Value="92"/>
+
+            <Setter Property="Background"
+                    Value="Transparent"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+
+            <Setter Property="Foreground"
+                    Value="#7F91A8"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <StackPanel HorizontalAlignment="Center">
+
+                            <Border x:Name="Circle"
+                                    Width="55"
+                                    Height="55"
+                                    CornerRadius="28"
+                                    Background="#07121F"
+                                    BorderBrush="#29405A"
+                                    BorderThickness="2">
+
+                                <ContentPresenter
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"/>
+
                             </Border>
 
-                            <TextBlock Text="Szerver"
-                                       Foreground="#68758B"
-                                       FontSize="11"
-                                       FontWeight="Bold"
-                                       Margin="0,20,0,4"/>
+                            <TextBlock
+                                Text="{TemplateBinding Tag}"
+                                FontSize="11"
+                                Foreground="{TemplateBinding Foreground}"
+                                HorizontalAlignment="Center"
+                                Margin="0,8,0,0"/>
 
-                            <TextBlock Text="CFS Network"
-                                       Foreground="White"
-                                       FontSize="15"/>
-
-                            <Button Content="DISCORD"
-                                    Click="Discord_Click"
-                                    Height="42"
-                                    Margin="0,22,0,0"
-                                    Background="#5865F2"
-                                    Foreground="White"
-                                    BorderThickness="0"
-                                    FontWeight="Bold"
-                                    Cursor="Hand"/>
-
-                            <Button Content="FRISSÍTÉS"
-                                    Click="Refresh_Click"
-                                    Height="42"
-                                    Margin="0,8,0,0"
-                                    Background="#182133"
-                                    Foreground="White"
-                                    BorderThickness="0"
-                                    Cursor="Hand"/>
                         </StackPanel>
-                    </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+
+                                <Setter TargetName="Circle"
+                                        Property="BorderBrush"
+                                        Value="#248FFF"/>
+
+                                <Setter TargetName="Circle"
+                                        Property="Effect"
+                                        Value="{StaticResource ButtonGlow}"/>
+
+                                <Setter Property="Foreground"
+                                        Value="White"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+    </Window.Resources>
+
+
+    <!-- ========================================================== -->
+    <!-- MAIN WINDOW -->
+    <!-- ========================================================== -->
+
+    <Border CornerRadius="14"
+            Background="{StaticResource Bg}"
+            BorderBrush="#193653"
+            BorderThickness="1">
+
+        <Grid>
+
+            <!-- ================================================== -->
+            <!-- DARK BLUE BACKGROUND -->
+            <!-- ================================================== -->
+
+            <Rectangle Fill="#020812"/>
+
+
+            <!-- Large blue glow -->
+
+            <Ellipse Width="850"
+                     Height="520"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Margin="0,-50,0,0"
+                     Fill="#063D91"
+                     Opacity="0.20">
+
+                <Ellipse.Effect>
+
+                    <BlurEffect Radius="110"/>
+
+                </Ellipse.Effect>
+
+            </Ellipse>
+
+
+            <!-- Left blue light -->
+
+            <Ellipse Width="620"
+                     Height="420"
+                     HorizontalAlignment="Left"
+                     VerticalAlignment="Center"
+                     Margin="80,-40,0,0"
+                     Fill="#0078FF"
+                     Opacity="0.10">
+
+                <Ellipse.Effect>
+
+                    <BlurEffect Radius="120"/>
+
+                </Ellipse.Effect>
+
+            </Ellipse>
+
+
+            <!-- Right blue light -->
+
+            <Ellipse Width="620"
+                     Height="420"
+                     HorizontalAlignment="Right"
+                     VerticalAlignment="Center"
+                     Margin="0,-20,70,0"
+                     Fill="#0066FF"
+                     Opacity="0.10">
+
+                <Ellipse.Effect>
+
+                    <BlurEffect Radius="120"/>
+
+                </Ellipse.Effect>
+
+            </Ellipse>
+
+
+            <!-- Central soft glow -->
+
+            <Ellipse Width="520"
+                     Height="320"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Margin="0,-100,0,0"
+                     Fill="#1685FF"
+                     Opacity="0.08">
+
+                <Ellipse.Effect>
+
+                    <BlurEffect Radius="100"/>
+
+                </Ellipse.Effect>
+
+            </Ellipse>
+
+
+            <!-- ================================================== -->
+            <!-- HEADER -->
+            <!-- ================================================== -->
+
+            <Border Height="80"
+                    VerticalAlignment="Top"
+                    Background="#06101D"
+                    BorderBrush="#162E49"
+                    BorderThickness="0,0,0,1">
+
+                <Grid>
+
+                    <!-- LOGO -->
+
+                    <StackPanel Margin="30,0,0,0"
+                                VerticalAlignment="Center">
+
+                        <StackPanel Orientation="Horizontal">
+
+                            <TextBlock
+                                Text="CFS"
+                                FontSize="36"
+                                FontWeight="ExtraBold"
+                                FontStyle="Italic"
+                                Foreground="White"/>
+
+                            <TextBlock
+                                Text=" NETWORK"
+                                FontSize="36"
+                                FontWeight="ExtraBold"
+                                FontStyle="Italic"
+                                Foreground="#248AFF"/>
+
+                        </StackPanel>
+
+                        <TextBlock
+                            Text="F I V E M   R O L E P L A Y"
+                            FontSize="8"
+                            Foreground="#6F829B"
+                            Margin="30,-3,0,0"/>
+
+                    </StackPanel>
+
+
+                    <!-- MINIMIZE -->
+
+                    <Button
+                        Width="48"
+                        Height="42"
+                        HorizontalAlignment="Right"
+                        Margin="0,0,68,0"
+                        VerticalAlignment="Center"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Click="Minimize_Click">
+
+                        <TextBlock
+                            Text="—"
+                            FontSize="24"
+                            Foreground="#8B9AAF"/>
+
+                    </Button>
+
+
+                    <!-- CLOSE -->
+
+                    <Button
+                        Width="48"
+                        Height="42"
+                        HorizontalAlignment="Right"
+                        Margin="0,0,18,0"
+                        VerticalAlignment="Center"
+                        Background="#103D71"
+                        BorderBrush="#2177CF"
+                        BorderThickness="1"
+                        Cursor="Hand"
+                        Click="Close_Click">
+
+                        <TextBlock
+                            Text="×"
+                            FontSize="25"
+                            Foreground="White"/>
+
+                    </Button>
+
                 </Grid>
-            </Grid>
 
-            <!-- BOTTOM -->
-            <Grid Grid.Row="2" Background="#101725">
-                <TextBlock Text="CFS Network • Hivatalos Launcher"
-                           Foreground="#68758B"
-                           VerticalAlignment="Center"
-                           Margin="24,0,0,0"/>
+            </Border>
 
-                <TextBlock Text="v1.4.0"
-                           Foreground="#68758B"
-                           HorizontalAlignment="Right"
-                           VerticalAlignment="Center"
-                           Margin="0,0,24,0"/>
+
+            <!-- ================================================== -->
+            <!-- CONTENT -->
+            <!-- ================================================== -->
+
+            <Grid Margin="0,80,0,0">
+
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="*"/>
+
+                    <RowDefinition Height="105"/>
+
+                    <RowDefinition Height="120"/>
+
+                    <RowDefinition Height="42"/>
+
+                </Grid.RowDefinitions>
+
+
+                <!-- ================================================== -->
+                <!-- CFS LOGO -->
+                <!-- ================================================== -->
+
+                <Grid Grid.Row="0">
+
+
+                    <!-- NEON ORBIT -->
+
+                    <Ellipse
+                        Width="720"
+                        Height="315"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Margin="0,-35,0,0"
+                        Stroke="#1685FF"
+                        StrokeThickness="2"
+                        Opacity="0.50"
+                        RenderTransformOrigin="0.5,0.5">
+
+                        <Ellipse.RenderTransform>
+
+                            <RotateTransform Angle="-13"/>
+
+                        </Ellipse.RenderTransform>
+
+                        <Ellipse.Effect>
+
+                            <DropShadowEffect
+                                Color="#0078FF"
+                                BlurRadius="28"
+                                ShadowDepth="0"
+                                Opacity="0.9"/>
+
+                        </Ellipse.Effect>
+
+                    </Ellipse>
+
+
+                    <!-- SECOND SOFT ORBIT -->
+
+                    <Ellipse
+                        Width="680"
+                        Height="280"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Margin="0,-35,0,0"
+                        Stroke="#006EFF"
+                        StrokeThickness="1"
+                        Opacity="0.20"
+                        RenderTransformOrigin="0.5,0.5">
+
+                        <Ellipse.RenderTransform>
+
+                            <RotateTransform Angle="-13"/>
+
+                        </Ellipse.RenderTransform>
+
+                    </Ellipse>
+
+
+                    <!-- ================================================= -->
+                    <!-- METALLIC CFS LOGO -->
+                    <!-- ================================================= -->
+
+                    <Image
+                        Source="/CFSNetworkLauncher;component/Assets/CFSLogo.png"
+                        Width="800"
+                        Height="420"
+                        Stretch="Uniform"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Margin="0,-35,0,0"
+                        Effect="{StaticResource LogoGlow}"/>
+
+                </Grid>
+
+
+                <!-- ================================================== -->
+                <!-- SERVER / CONNECT / ONLINE -->
+                <!-- ================================================== -->
+
+                <Grid
+                    Grid.Row="1"
+                    Margin="52,0">
+
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition Width="1*"/>
+
+                        <ColumnDefinition Width="1.35*"/>
+
+                        <ColumnDefinition Width="1*"/>
+
+                    </Grid.ColumnDefinitions>
+
+
+                    <!-- SERVER -->
+
+                    <Border
+                        Grid.Column="0"
+                        Height="78"
+                        Margin="0,8,12,8"
+                        CornerRadius="13"
+                        Background="{StaticResource Panel}"
+                        BorderBrush="{StaticResource Border}"
+                        BorderThickness="1">
+
+                        <Grid>
+
+                            <TextBlock
+                                Text="◉"
+                                FontSize="27"
+                                Foreground="#B5C2D1"
+                                VerticalAlignment="Center"
+                                Margin="22,0,0,0"/>
+
+                            <StackPanel
+                                Margin="68,13,10,10">
+
+                                <TextBlock
+                                    Text="SZERVER"
+                                    FontSize="10"
+                                    Foreground="#8192A8"/>
+
+                                <TextBlock
+                                    x:Name="AddressText"
+                                    Text="87.229.6.49:30120"
+                                    FontSize="17"
+                                    Foreground="White"
+                                    Margin="0,5,0,0"/>
+
+                            </StackPanel>
+
+                        </Grid>
+
+                    </Border>
+
+
+                    <!-- CONNECT -->
+
+                    <Button
+                        x:Name="ConnectButton"
+                        Grid.Column="1"
+                        Height="76"
+                        Margin="14,9"
+                        Style="{StaticResource ConnectStyle}"
+                        Click="Connect_Click"/>
+
+
+                    <!-- ONLINE -->
+
+                    <Border
+                        Grid.Column="2"
+                        Height="78"
+                        Margin="12,8,0,8"
+                        CornerRadius="13"
+                        Background="{StaticResource Panel}"
+                        BorderBrush="{StaticResource Border}"
+                        BorderThickness="1">
+
+                        <Grid>
+
+                            <TextBlock
+                                Text="♟"
+                                FontSize="30"
+                                Foreground="#B5C2D1"
+                                VerticalAlignment="Center"
+                                Margin="22,0,0,0"/>
+
+                            <StackPanel
+                                Margin="68,13,50,10">
+
+                                <TextBlock
+                                    Text="ONLINE"
+                                    FontSize="10"
+                                    Foreground="#8192A8"/>
+
+                                <TextBlock
+                                    x:Name="PlayersText"
+                                    Text="0 / 48 játékos"
+                                    FontSize="17"
+                                    Foreground="White"
+                                    Margin="0,5,0,0"/>
+
+                            </StackPanel>
+
+
+                            <!-- STATUS DOT -->
+
+                            <Ellipse
+                                x:Name="StatusDot"
+                                Width="14"
+                                Height="14"
+                                Fill="#20DC76"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Margin="0,0,20,0">
+
+                                <Ellipse.Effect>
+
+                                    <DropShadowEffect
+                                        Color="#20DC76"
+                                        BlurRadius="12"
+                                        ShadowDepth="0"
+                                        Opacity="0.9"/>
+
+                                </Ellipse.Effect>
+
+                            </Ellipse>
+
+                        </Grid>
+
+                    </Border>
+
+                </Grid>
+
+
+                <!-- ================================================== -->
+                <!-- STATUS TEXT -->
+                <!-- ================================================== -->
+
+                <TextBlock
+                    x:Name="StatusText"
+                    Text="ONLINE"
+                    Visibility="Collapsed"/>
+
+
+                <!-- ================================================== -->
+                <!-- NAVIGATION -->
+                <!-- ================================================== -->
+
+                <StackPanel
+                    Grid.Row="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Margin="0,8,0,0">
+
+
+                    <!-- HOME -->
+
+                    <Button
+                        Style="{StaticResource NavStyle}"
+                        Tag="FŐOLDAL">
+
+                        <TextBlock
+                            Text="⌂"
+                            FontSize="31"
+                            Foreground="White"/>
+
+                    </Button>
+
+
+                    <!-- NEWS -->
+
+                    <Button
+                        Style="{StaticResource NavStyle}"
+                        Tag="HÍREK"
+                        Margin="8,0,0,0">
+
+                        <TextBlock
+                            Text="▤"
+                            FontSize="25"
+                            Foreground="#CBD5E1"/>
+
+                    </Button>
+
+
+                    <!-- DISCORD -->
+
+                    <Button
+                        Style="{StaticResource NavStyle}"
+                        Tag="DISCORD"
+                        Margin="8,0,0,0"
+                        Click="Discord_Click">
+
+                        <TextBlock
+                            Text="●"
+                            FontSize="25"
+                            Foreground="#CBD5E1"/>
+
+                    </Button>
+
+
+                    <!-- UPDATE -->
+
+                    <Button
+                        Style="{StaticResource NavStyle}"
+                        Tag="FRISSÍTÉS"
+                        Margin="8,0,0,0"
+                        Click="Refresh_Click">
+
+                        <TextBlock
+                            Text="↓"
+                            FontSize="31"
+                            Foreground="#CBD5E1"/>
+
+                    </Button>
+
+
+                    <!-- WEBSITE -->
+
+                    <Button
+                        Style="{StaticResource NavStyle}"
+                        Tag="WEBOLDAL"
+                        Margin="8,0,0,0">
+
+                        <TextBlock
+                            Text="◎"
+                            FontSize="30"
+                            Foreground="#CBD5E1"/>
+
+                    </Button>
+
+
+                    <!-- SETTINGS -->
+
+                    <Button
+                        Style="{StaticResource NavStyle}"
+                        Tag="BEÁLLÍTÁSOK"
+                        Margin="8,0,0,0">
+
+                        <TextBlock
+                            Text="⚙"
+                            FontSize="28"
+                            Foreground="#CBD5E1"/>
+
+                    </Button>
+
+                </StackPanel>
+
+
+                <!-- ================================================== -->
+                <!-- FOOTER -->
+                <!-- ================================================== -->
+
+                <Border
+                    Grid.Row="3"
+                    Background="#060F1B"
+                    BorderBrush="#16304D"
+                    BorderThickness="0,1,0,0">
+
+                    <Grid>
+
+                        <TextBlock
+                            Text="CFS Network - Hivatalos Launcher"
+                            Margin="27,0,0,0"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            Foreground="#6D819A"/>
+
+                        <TextBlock
+                            Text="v1.6.0"
+                            Margin="0,0,27,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            Foreground="#6D819A"/>
+
+                    </Grid>
+
+                </Border>
+
             </Grid>
 
         </Grid>
+
     </Border>
+
 </Window>
